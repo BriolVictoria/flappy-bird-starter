@@ -1,9 +1,11 @@
-import {Background} from "./iAnimatables/Background";
 import {settings} from "./settings";
-import {Ground} from "./iAnimatables/Ground";
-import {Bird} from "./iAnimatables/Bird";
 import {Animation} from "./framework25/Animation";
 import {iAnimatable} from "./framework25/types/iAnimatable";
+import {Background} from "./iAnimatables/Background";
+import {Ground} from "./iAnimatables/Ground";
+import {Birdie} from "./iAnimatables/Birdie";
+import {iGameStatus} from "./types/iGameStatus";
+import {Tubes} from "./iAnimatables/Tubes";
 
 class FlappyBird {
     private readonly canvas: HTMLCanvasElement;
@@ -11,30 +13,47 @@ class FlappyBird {
     private readonly sprite: CanvasImageSource;
     private readonly background: Background;
     private readonly ground: Ground;
-    private readonly bird: Bird;
+    private readonly birdie: Birdie;
     private readonly animation: Animation;
     private iAnimatables: iAnimatable[];
+    private gameStatus: iGameStatus;
+    private tubes: Tubes;
 
 
     constructor() {
         this.canvas = document.getElementById(settings.canvasID) as HTMLCanvasElement;
         this.ctx = this.canvas.getContext("2d");
+        this.gameStatus = {
+            isStarted: false,
+        }
         this.sprite = new Image();
         this.sprite.src = settings.spriteURL;
         this.addEventListeners();
         this.background = new Background(this.sprite, this.ctx);
         this.ground = new Ground(this.sprite, this.ctx, this.canvas);
-        this.bird = new Bird(this.sprite, this.ctx, this.canvas);
-        this.iAnimatables = [this.background, this.ground, this.bird];
-
+        this.iAnimatables = [];
         this.animation = new Animation(this.ctx, this.canvas, this.iAnimatables);
+        this.birdie = new Birdie(this.sprite, this.ctx, this.canvas, this.gameStatus, this.animation);
+        this.tubes = new Tubes(this.sprite, this.ctx, this.canvas)
+
+        this.iAnimatables.push(this.background);
+        this.iAnimatables.push(this.ground);
+        this.iAnimatables.push(this.birdie);
+
     }
 
     addEventListeners() {
         // @ts-ignore
         this.sprite.addEventListener("load", () => {
             this.animation.start();
-        })
+        });
+
+        window.addEventListener("keydown", (evt) => {
+            if (evt.key === "ArrowUp" || evt.key === " ") {
+                this.gameStatus.isStarted = true;
+                this.birdie.goUp();
+            }
+        });
     }
 
 }

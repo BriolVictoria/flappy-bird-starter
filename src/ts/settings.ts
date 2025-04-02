@@ -8,8 +8,8 @@ export const settings = {
                 sy: 982,
                 sw: 35,
                 sh: 35,
-                dx: 0,
-                dy: 0,
+                dx: 72,
+                dy: 200,
                 dw: 35,
                 dh: 35
             },
@@ -18,8 +18,8 @@ export const settings = {
                 sy: 982,
                 sw: 35,
                 sh: 35,
-                dx: 0,
-                dy: 0,
+                dx: 72,
+                dy: 200,
                 dw: 35,
                 dh: 35
             },
@@ -28,14 +28,18 @@ export const settings = {
                 sy: 982,
                 sw: 35,
                 sh: 35,
-                dx: 0,
-                dy: 0,
+                dx: 72,
+                dy: 200,
                 dw: 35,
                 dh: 35
             }
         ],
-        maxFallSpeed: 3,
+        maxFallSpeed: 10,
+        gravity: 1,
         dxRatio: 0.25,
+        maxFrameRate: 10,
+
+
 
     },
     background: {
@@ -86,5 +90,4 @@ export const settings = {
             dh: 325
         }
     },
-    gravity: 0.2
 }
